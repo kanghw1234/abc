@@ -2,15 +2,15 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>Steam Clone - Games</title>
+    <title>Steam Clone - Home</title>
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
     <header>
-        <div class="logo"><a href="/">STEAM_CLONE</a></div>
+        <div class="logo"><a href="/">STEAM MASTER</a></div>
         <nav>
             <% if (user) { %>
-                <span>환영합니다, <b><%= user.nickname %></b>님!</span>
+                <span><b><%= user.nickname %></b>님 안녕하세요</span>
                 <a href="/logout">로그아웃</a>
             <% } else { %>
                 <a href="/login">로그인</a>
@@ -20,27 +20,28 @@
     </header>
 
     <div class="container">
-        <h2>게임 목록</h2>
-        
-        <form action="/" method="GET" style="margin-bottom: 20px; display: flex; gap: 10px;">
-            <input type="text" name="search" placeholder="게임 제목 검색..." value="<%= search %>" style="flex: 1; margin: 0;">
-            <button type="submit">검색</button>
-        </form>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h2>게임 상점 목록</h2>
+            <form action="/" method="GET" style="display: flex; gap: 5px;">
+                <input type="text" name="search" placeholder="검색어 입력" value="<%= search %>" style="width: 200px; margin: 0;">
+                <button type="submit" style="padding: 5px 15px;">검색</button>
+            </form>
+        </div>
 
         <table>
             <thead>
                 <tr>
                     <th>게임 이름</th>
                     <th>별점 (5점)</th>
-                    <th>출시날짜+시각</th>
+                    <th>출시일시</th>
                 </tr>
             </thead>
             <tbody>
                 <% games.forEach(game => { %>
                     <tr onclick="location.href='/game/<%= game.id %>'">
-                        <td style="color: #66c0f4; font-weight: bold;"><%= game.title %></td>
-                        <td style="color: #f1c40f;">★ <%= parseFloat(game.avg_rating).toFixed(1) %></td>
-                        <td style="font-size: 13px;"><%= new Date(game.release_date).toLocaleString() %></td>
+                        <td class="game-title"><%= game.title %></td>
+                        <td class="rating">★ <%= parseFloat(game.avg_rating).toFixed(1) %></td>
+                        <td class="date"><%= new Date(game.release_date).toLocaleString() %></td>
                     </tr>
                 <% }); %>
             </tbody>
