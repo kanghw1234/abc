@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Steam Clone - Games</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <header>
+        <div class="logo"><a href="/">STEAM_CLONE</a></div>
+        <nav>
+            <% if (user) { %>
+                <span>환영합니다, <b><%= user.nickname %></b>님!</span>
+                <a href="/logout">로그아웃</a>
+            <% } else { %>
+                <a href="/login">로그인</a>
+                <a href="/signup">회원가입</a>
+            <% } %>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h2>게임 목록</h2>
+        
+        <form action="/" method="GET" style="margin-bottom: 20px; display: flex; gap: 10px;">
+            <input type="text" name="search" placeholder="게임 제목 검색..." value="<%= search %>" style="flex: 1; margin: 0;">
+            <button type="submit">검색</button>
+        </form>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>게임 이름</th>
+                    <th>별점 (5점)</th>
+                    <th>출시날짜+시각</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% games.forEach(game => { %>
+                    <tr onclick="location.href='/game/<%= game.id %>'">
+                        <td style="color: #66c0f4; font-weight: bold;"><%= game.title %></td>
+                        <td style="color: #f1c40f;">★ <%= parseFloat(game.avg_rating).toFixed(1) %></td>
+                        <td style="font-size: 13px;"><%= new Date(game.release_date).toLocaleString() %></td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+
+        <div class="pagination">
+            <% for(let i=1; i<=totalPages; i++) { %>
+                <a href="/?page=<%= i %>&search=<%= search %>" class="<%= page === i ? 'active' : '' %>"><%= i %></a>
+            <% } %>
+        </div>
+    </div>
+</body>
+</html>

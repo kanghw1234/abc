@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameReview.zip - Dark Edition</title>
+    <style>
+        :root {
+            --bg: #121212;
+            --card-bg: #1e1e1e;
+            --text: #e0e0e0;
+            --accent: #bb86fc;
+            --muted: #a0a0a0;
+            --border: #333333;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 { color: var(--accent); }
+
+        .form-section {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+            border: 1px solid var(--border);
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            background: #2c2c2c;
+            border: 1px solid var(--border);
+            color: white;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background: var(--accent);
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .card-title { margin-top: 0; color: var(--accent); }
+        .card-rating { color: #f1c40f; font-weight: bold; }
+        .card-text { color: var(--muted); font-size: 14px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>GameReview.zip</h1>
+        <p>심플하고 강력한 다크 테마 게임 리뷰</p>
+    </div>
+
+    <!-- 리뷰 작성 폼 -->
+    <div class="form-section">
+        <h3>새 리뷰 작성</h3>
+        <input type="text" id="title" placeholder="게임 제목">
+        <input type="number" id="rating" step="0.1" max="10" placeholder="평점 (0~10)">
+        <textarea id="content" rows="3" placeholder="리뷰 내용을 입력하세요..."></textarea>
+        <button onclick="addReview()">리뷰 등록</button>
+    </div>
+
+    <!-- 리뷰 목록 -->
+    <div id="reviews-grid" class="grid">
+        <!-- 데이터가 여기에 동적으로 추가됩니다 -->
+    </div>
+</div>
+
+<script>
+    async function fetchReviews() {
+        const response = await fetch('/api/reviews');
+        const reviews = await response.json();
+        const grid = document.getElementById('reviews-grid');
+        grid.innerHTML = '';
+        
+        reviews.forEach(review => {
+            grid.innerHTML += `
+                <div class="card">
+                    <h3 class="card-title">${review.title}</h3>
+                    <div class="card-rating">★ ${review.rating}</div>
+                    <p class="card-text">${review.content}</p>
+                    <small style="color: #666">${new Date(review.created_at).toLocaleDateString()}</small>
+                </div>
+            `;
+        });
+    }
+
+    async function addReview() {
+        const title = document.getElementById('title').value;
+        const rating = document.getElementById('rating').value;
+        const content = document.getElementById('content').value;
+
+        if(!title || !rating) return alert('제목과 평점을 입력해주세요!');
+
+        await fetch('/api/reviews', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ title, rating, content })
+        });
+
+        // 폼 초기화 및 새로고침
+        document.getElementById('title').value = '';
+        document.getElementById('rating').value = '';
+        document.getElementById('content').value = '';
+        fetchReviews();
+    }
+
+    // 초기 로딩 시 리뷰 불러오기
+    fetchReviews();
+</script>
+
+</body>
+</html>
