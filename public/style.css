@@ -1,104 +1,172 @@
+/* Steam Inspired Dark Mode Theme */
+:root {
+    --bg-darker: #171a21;
+    --bg-main: #1b2838;
+    --bg-card: #2a475e;
+    --text-primary: #f1f1f1;
+    --text-muted: #c7d5e0;
+    --accent-blue: #66c0f4;
+    --steam-green: linear-gradient( to bottom, #a4d007 5%, #536904 95%);
+    --border-color: #1b2838;
+}
+
 body {
-    background-color: #1b2838;
-    color: #c7d5e0;
-    font-family: 'Motiva Sans', Sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-muted);
+    font-family: 'Motiva Sans', Arial, Helvetica, sans-serif;
     margin: 0;
     padding: 0;
+    line-height: 1.6;
 }
 
 header {
-    background-color: #171a21;
-    padding: 20px;
+    background-color: var(--bg-darker);
+    padding: 15px 5%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
 .logo a {
-    color: #fff;
-    font-size: 24px;
+    color: white;
+    font-size: 26px;
     text-decoration: none;
-    font-weight: bold;
-    letter-spacing: 2px;
+    font-weight: 800;
+    letter-spacing: 1px;
 }
 
 nav a {
-    color: #b8b6b4;
+    color: var(--text-muted);
     text-decoration: none;
-    margin-left: 20px;
-    font-size: 14px;
+    margin-left: 25px;
+    font-size: 15px;
+    transition: color 0.2s;
 }
 
-nav a:hover { color: #fff; }
+nav a:hover { color: white; }
 
 .container {
-    max-width: 940px;
+    max-width: 1000px;
     margin: 40px auto;
-    background: rgba(0,0,0,0.2);
-    padding: 20px;
+    background: rgba(0,0,0,0.3);
+    padding: 30px;
+    border-radius: 4px;
 }
 
-h2 { color: #fff; border-bottom: 1px solid #333; padding-bottom: 10px; }
+h1, h2, h3 { color: white; margin-top: 0; }
 
-/* Table Style */
+/* Table / Grid Style */
 table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
-    background: #2a475e;
+    background: var(--bg-card);
+    border-radius: 4px;
+    overflow: hidden;
 }
 
 th, td {
-    padding: 15px;
+    padding: 18px;
     text-align: left;
-    border-bottom: 1px solid #1b2838;
+    border-bottom: 1px solid var(--bg-main);
 }
 
-th { background: #171a21; color: #66c0f4; }
+th {
+    background: var(--bg-darker);
+    color: var(--accent-blue);
+    text-transform: uppercase;
+    font-size: 13px;
+    letter-spacing: 1px;
+}
 
-tr:hover { background: #325a7c; cursor: pointer; }
+tr:hover {
+    background: #3d6c8d;
+    cursor: pointer;
+    transition: background 0.2s;
+}
 
-/* Buttons & Inputs */
-input, textarea {
-    background: #2a475e;
+.game-title { color: var(--accent-blue); font-weight: bold; font-size: 18px; }
+.rating { color: #f1c40f; font-weight: bold; }
+
+/* Form Elements */
+input, textarea, select {
+    background: #233c51;
     border: 1px solid #1b2838;
-    color: #fff;
-    padding: 10px;
+    color: white;
+    padding: 12px;
     width: 100%;
     box-sizing: border-box;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+    border-radius: 3px;
+    font-size: 14px;
+}
+
+input:focus, textarea:focus {
+    border-color: var(--accent-blue);
+    outline: none;
 }
 
 button {
-    background: linear-gradient( to bottom, #a4d007 5%, #536904 95%);
+    background: var(--steam-green);
     color: #d2efa9;
     border: none;
-    padding: 10px 20px;
+    padding: 12px 24px;
     cursor: pointer;
     font-weight: bold;
+    border-radius: 2px;
+    transition: filter 0.2s;
 }
 
-button:hover { background: #a4d007; color: #fff; }
+button:hover {
+    filter: brightness(1.1);
+    color: white;
+}
 
+/* Pagination */
 .pagination {
-    margin-top: 20px;
+    margin-top: 30px;
     text-align: center;
 }
 
 .pagination a {
-    color: #66c0f4;
-    padding: 8px 16px;
+    color: var(--accent-blue);
+    padding: 10px 18px;
     text-decoration: none;
-    background: #171a21;
-    margin: 0 4px;
+    background: var(--bg-darker);
+    margin: 0 5px;
+    border-radius: 3px;
 }
 
-.pagination a.active { background: #66c0f4; color: #fff; }
+.pagination a.active {
+    background: var(--accent-blue);
+    color: var(--bg-darker);
+    font-weight: bold;
+}
 
+/* Review Card */
 .review-card {
-    background: rgba(0,0,0,0.3);
-    padding: 15px;
+    background: rgba(0,0,0,0.25);
+    padding: 20px;
+    margin-bottom: 15px;
+    border-left: 5px solid var(--accent-blue);
+    border-radius: 2px;
+}
+
+.review-meta {
+    font-size: 13px;
+    color: var(--accent-blue);
     margin-bottom: 10px;
-    border-left: 4px solid #66c0f4;
+}
+
+/* Detail Page Specific */
+.game-info-box {
+    background: var(--bg-card);
+    padding: 25px;
+    margin: 25px 0;
+    border-radius: 4px;
+    border-left: 5px solid #4c6b22;
 }
